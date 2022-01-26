@@ -1,4 +1,4 @@
-module github.com/pojntfx/usb-hub-configurator
+module github.com/pojntfx/papilio
 
 go 1.17
 

@@ -2,7 +2,7 @@
 DESTDIR ?=
 
 WWWROOT ?= /var/www/html
-WWWPREFIX ?= /usb-hub-configurator
+WWWPREFIX ?= /papilio
 
 PREFIX ?= /usr/local
 OUTPUT_DIR ?= out
@@ -11,8 +11,8 @@ STATIC_DIR ?= web
 DST ?=
 
 # Private variables
-clis = usb-hub-configurator-cli
-pwas = usb-hub-configurator-pwa
+clis = papilio-cli
+pwas = papilio-pwa
 all: $(addprefix build-cli/,$(clis)) $(addprefix build-pwa/,$(pwas))
 
 # Build
