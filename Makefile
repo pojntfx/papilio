@@ -1,73 +1,78 @@
-# Variables
+# Public variables
 DESTDIR ?=
 
 WWWROOT ?= /var/www/html
-WWWPREFIX ?= /felicitas.pojtinger
+WWWPREFIX ?= /usb-hub-configurator
 
 PREFIX ?= /usr/local
 OUTPUT_DIR ?= out
+BUILD_DIR ?= build
+STATIC_DIR ?= web
 DST ?=
 
 # Private variables
-obj = usb-hub-configurator-cli
-sts = usb-hub-configurator-pwa
-all: $(addprefix build-cli/,$(obj)) $(addprefix build-pwa/,$(sts))
+clis = usb-hub-configurator-cli
+pwas = usb-hub-configurator-pwa
+all: $(addprefix build-cli/,$(clis)) $(addprefix build-pwa/,$(pwas))
 
 # Build
-build: $(addprefix build-cli/,$(obj)) $(addprefix build-pwa/,$(sts))
+build: $(addprefix build-cli/,$(clis)) $(addprefix build-pwa/,$(pwas))
 
-# Build binary
-$(addprefix build-cli/,$(obj)):
+$(addprefix build-cli/,$(clis)):
 ifdef DST
 	go build -o $(DST) ./cmd/$(subst build-cli/,,$@)
 else
 	go build -o $(OUTPUT_DIR)/$(subst build-cli/,,$@) ./cmd/$(subst build-cli/,,$@)
 endif
 
-# Build frontend
-$(addprefix build-pwa/,$(sts)):
-	mkdir -p $(OUTPUT_DIR) public/web
-	GOARCH=wasm GOOS=js go build -o web/app.wasm ./cmd/$(subst build-pwa/,,$@)
-	go run ./cmd/$(subst build-pwa/,,$@) -prefix $(WWWPREFIX)
-	cp -rf web/* public/web
-	tar -cvzf $(OUTPUT_DIR)/$(subst build-pwa/,,$@).tar.gz -C public .
+$(addprefix build-pwa/,$(pwas)):
+	mkdir -p $(OUTPUT_DIR) $(BUILD_DIR)
+	GOARCH=wasm GOOS=js go build -o $(STATIC_DIR)/app.wasm ./cmd/$(subst build-pwa/,,$@)
+	go run ./cmd/$(subst build-pwa/,,$@) -dist $(BUILD_DIR) -prefix $(WWWPREFIX)
+	cp -rf $(STATIC_DIR)/* $(BUILD_DIR)/web
+	tar -cvzf $(OUTPUT_DIR)/$(subst build-pwa/,,$@).tar.gz -C $(BUILD_DIR) .
 
 # Install
-install: $(addprefix install-cli/,$(obj)) $(addprefix install-pwa/,$(sts))
+install: $(addprefix install-cli/,$(clis)) $(addprefix install-pwa/,$(pwas))
 
-# Install binary
-$(addprefix install-cli/,$(obj)):
+$(addprefix install-cli/,$(clis)):
 	install -D -m 0755 $(OUTPUT_DIR)/$(subst install-cli/,,$@) $(DESTDIR)$(PREFIX)/bin/$(subst install-cli/,,$@)
 
-# Install frontend
-$(addprefix install-pwa/,$(sts)):
+$(addprefix install-pwa/,$(pwas)):
 	mkdir -p $(DESTDIR)$(WWWROOT)$(WWWPREFIX)
-	cp -rf public/* $(DESTDIR)$(WWWROOT)$(WWWPREFIX)
+	cp -rf $(BUILD_DIR)/* $(DESTDIR)$(WWWROOT)$(WWWPREFIX)
 
 # Uninstall
-uninstall: $(addprefix uninstall-cli/,$(obj)) $(addprefix uninstall-pwa/,$(sts))
+uninstall: $(addprefix uninstall-cli/,$(clis)) $(addprefix uninstall-pwa/,$(pwas))
 
-# Uninstall binary
-$(addprefix uninstall-cli/,$(obj)):
+$(addprefix uninstall-cli/,$(clis)):
 	rm -f $(DESTDIR)$(PREFIX)/bin/$(subst uninstall-cli/,,$@)
 
-# Uninstall frontend
-$(addprefix uninstall-pwa/,$(sts)):
+$(addprefix uninstall-pwa/,$(pwas)):
 	rm -rf $(DESTDIR)$(WWWROOT)$(WWWPREFIX)
 
 # Run
-run:
-	GOARCH=wasm GOOS=js go build -o web/app.wasm ./cmd/$(subst build-pwa/,,$@)
-	go run ./cmd/$(subst build-pwa/,,$@) -serve
+run: $(addprefix run-cli/,$(clis)) $(addprefix run-pwa/,$(pwas))
 
-# Develop
-dev:
-	while inotifywait -r -e close_write --exclude 'out' .; do $(MAKE) run; done
+$(addprefix run-cli/,$(clis)): build
+	$(OUTPUT_DIR)/$(subst run-cli/,,$@) $(ARGS)
+
+$(addprefix run-pwa/,$(pwas)):
+	GOARCH=wasm GOOS=js go build -o $(STATIC_DIR)/app.wasm ./cmd/$(subst run-pwa/,,$@)
+	go run ./cmd/$(subst run-pwa/,,$@) -serve
+
+# Test
+test:
+	go test -timeout 3600s -parallel $(shell nproc) ./...
+
+# Benchmark
+benchmark:
+	go test -timeout 3600s -bench=./... ./...
 
 # Clean
 clean:
-	rm -rf out public web/app.wasm
+	rm -rf $(OUTPUT_DIR) $(BUILD_DIR) $(STATIC_DIR)/app.wasm
 
 # Dependencies
 depend:
-	echo 0
+	exit 0
