@@ -1,7 +1,7 @@
 {
   "short_name": "Papilio",
   "name": "Papilio",
-  "description": "CLI and web app to configure the Terminus FE series of USB Hubs.",
+  "description": "CLI and web app to configure the Terminus FE and SL series of USB Hubs.",
   "icons": [
     {
       "src": "/papilio/web/default.png",
