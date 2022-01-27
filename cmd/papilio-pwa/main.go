@@ -31,8 +31,8 @@ func main() {
 		Title:           "Papilio",
 		Name:            "Papilio",
 		ShortName:       "Papilio",
-		Description:     "CLI and web app to configure the Terminus FE series of USB Hubs.",
-		LoadingLabel:    "CLI and web app to configure the Terminus FE series of USB Hubs.",
+		Description:     "CLI and web app to configure the Terminus FE and SL series of USB Hubs.",
+		LoadingLabel:    "CLI and web app to configure the Terminus FE and SL series of USB Hubs.",
 		Author:          "Felicitas Pojtinger",
 		ThemeColor:      "#151515",
 		BackgroundColor: "#151515",
@@ -48,7 +48,7 @@ func main() {
 		RawHeaders: []string{
 			`<meta property="og:url" content="https://pojntfx.github.io/papilio/">`,
 			`<meta property="og:title" content="Papilio">`,
-			`<meta property="og:description" content="CLI and web app to configure the Terminus FE series of USB Hubs.">`,
+			`<meta property="og:description" content="CLI and web app to configure the Terminus FE and SL series of USB Hubs.">`,
 			`<meta property="og:image" content="https://pojntfx.github.io/papilio/web/default.png">`,
 		},
 		Styles: []string{
