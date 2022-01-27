@@ -1,0 +1,22 @@
+{
+  "short_name": "Papilio",
+  "name": "Papilio",
+  "description": "CLI and web app to configure the Terminus FE series of USB Hubs.",
+  "icons": [
+    {
+      "src": "/papilio/web/default.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/papilio/web/large.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "scope": "/papilio/",
+  "start_url": "/papilio/",
+  "background_color": "#151515",
+  "theme_color": "#151515",
+  "display": "standalone"
+}
