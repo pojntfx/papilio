@@ -8,10 +8,10 @@
 <meta name="keywords" content="usb-hub, configuration, terminus-fe">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:45587/">
+<meta property="og:url" content="http://127.0.0.1:38765/">
 <meta property="og:title" content="Papilio">
-<meta property="og:description" content="CLI and web app to configure the Terminus FE and SL series of USB Hubs.">
-<meta content="website" property="og:type">
+<meta content="CLI and web app to configure the Terminus FE and SL series of USB Hubs." property="og:description">
+<meta property="og:type" content="website">
 <meta property="og:image" content>
 <title>
 Papilio
@@ -20,7 +20,7 @@ Papilio
 <link rel="apple-touch-icon" href="/papilio/web/default.png">
 <link rel="manifest" href="/papilio/manifest.webmanifest">
 <link type="text/css" rel="stylesheet" href="/papilio/app.css">
-<script src="/papilio/wasm_exec.js" defer="true"></script>
+<script defer="true" src="/papilio/wasm_exec.js"></script>
 <script defer="true" src="/papilio/app.js"></script>
 <link type="text/css" rel="stylesheet" href="/papilio/web/main.css">
 <meta property="og:url" content="https://pojntfx.github.io/papilio/">
@@ -30,16 +30,39 @@ Papilio
 </head>
 <body>
 <div>
-<aside id="app-wasm-loader" class="goapp-app-info">
-<img class="goapp-logo goapp-spin" src="/papilio/web/default.png" id="app-wasm-loader-icon">
+<aside class="goapp-app-info" id="app-wasm-loader">
+<img id="app-wasm-loader-icon" class="goapp-logo goapp-spin" src="/papilio/web/default.png">
 <p id="app-wasm-loader-label" class="goapp-label">
 CLI and web app to configure the Terminus FE and SL series of USB Hubs.
 </p>
 </aside>
 <div id="app-pre-render">
+<div class="pf-c-page">
+<a class="pf-c-skip-to-content pf-c-button pf-m-primary" href="#papilio-main">
+Skip to content
+</a>
+<header class="pf-c-page__header">
+<div class="pf-c-page__header-brand">
+<a class="pf-c-page__header-brand-link" href="#">
+<img class="pf-c-brand" src="/papilio/web/logo-light.png" alt="Logo">
+</a>
+</div>
+<div class="pf-c-page__header-tools">
+<div class="pf-c-page__header-tools-group">
+<div class="pf-c-page__header-tools-item">
+<a target="_blank" class="pf-c-button pf-m-plain" aria-label="Help" href="https://github.com/pojntfx/papilio">
+<i class="pf-icon fas fa-question-circle" aria-hidden="true"></i>
+</a>
+</div>
+</div>
+</div>
+</header>
+<main class="pf-c-page__main" id="papilio-main" tabindex="-1">
 <h1>
 Hello, world!
 </h1>
+</main>
+</div>
 </div>
 </div>
 </body>
