@@ -25,12 +25,15 @@ else
 	go build -o $(OUTPUT_DIR)/$(subst build-cli/,,$@) ./cmd/$(subst build-cli/,,$@)
 endif
 
-$(addprefix build-pwa/,$(pwas)):
+$(addprefix build-pwa/,$(pwas)): build-scss
 	mkdir -p $(OUTPUT_DIR) $(BUILD_DIR)
 	GOARCH=wasm GOOS=js go build -o $(STATIC_DIR)/app.wasm ./cmd/$(subst build-pwa/,,$@)
 	go run ./cmd/$(subst build-pwa/,,$@) -dist $(BUILD_DIR) -prefix $(WWWPREFIX)
 	cp -rf $(STATIC_DIR)/* $(BUILD_DIR)/web
 	tar -cvzf $(OUTPUT_DIR)/$(subst build-pwa/,,$@).tar.gz -C $(BUILD_DIR) .
+
+build-scss:
+	npx sass -I . web/main.scss web/main.css
 
 # Install
 install: $(addprefix install-cli/,$(clis)) $(addprefix install-pwa/,$(pwas))
@@ -57,7 +60,7 @@ run: $(addprefix run-cli/,$(clis)) $(addprefix run-pwa/,$(pwas))
 $(addprefix run-cli/,$(clis)): build
 	$(OUTPUT_DIR)/$(subst run-cli/,,$@) $(ARGS)
 
-$(addprefix run-pwa/,$(pwas)):
+$(addprefix run-pwa/,$(pwas)): build-scss
 	GOARCH=wasm GOOS=js go build -o $(STATIC_DIR)/app.wasm ./cmd/$(subst run-pwa/,,$@)
 	go run ./cmd/$(subst run-pwa/,,$@) -serve
 
@@ -75,4 +78,8 @@ clean:
 
 # Dependencies
 depend:
-	exit 0
+	npm i
+	find node_modules/@patternfly/patternfly/ -name "*.css" -type f -delete
+	rm -rf $(STATIC_DIR)/fonts
+	mkdir -p $(STATIC_DIR)
+	cp -r node_modules/@patternfly/patternfly/assets/fonts $(STATIC_DIR)
