@@ -1,7 +1,7 @@
-const cacheName = "app-" + "ad869b856df65cf4eb9eaeba096f74a60e2d0790";
+const cacheName = "app-" + "b087fb6b1146f098ffc0b11a026141eda05c630b";
 
 self.addEventListener("install", event => {
-  console.log("installing app worker ad869b856df65cf4eb9eaeba096f74a60e2d0790");
+  console.log("installing app worker b087fb6b1146f098ffc0b11a026141eda05c630b");
 
   event.waitUntil(
     caches.open(cacheName).
@@ -15,8 +15,7 @@ self.addEventListener("install", event => {
           "/papilio/web/app.wasm",
           "/papilio/web/default.png",
           "/papilio/web/large.png",
-          "https://unpkg.com/@patternfly/patternfly@4.164.2/patternfly-addons.css",
-          "https://unpkg.com/@patternfly/patternfly@4.164.2/patternfly.css",
+          "/papilio/web/main.css",
           
         ]);
       }).
@@ -38,7 +37,7 @@ self.addEventListener("activate", event => {
       );
     })
   );
-  console.log("app worker ad869b856df65cf4eb9eaeba096f74a60e2d0790 is activated");
+  console.log("app worker b087fb6b1146f098ffc0b11a026141eda05c630b is activated");
 });
 
 self.addEventListener("fetch", event => {
