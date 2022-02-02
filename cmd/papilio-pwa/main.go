@@ -52,8 +52,7 @@ func main() {
 			`<meta property="og:image" content="https://pojntfx.github.io/papilio/web/default.png">`,
 		},
 		Styles: []string{
-			"https://unpkg.com/@patternfly/patternfly@4.164.2/patternfly.css",
-			"https://unpkg.com/@patternfly/patternfly@4.164.2/patternfly-addons.css",
+			"/web/main.css",
 		},
 	}
 
