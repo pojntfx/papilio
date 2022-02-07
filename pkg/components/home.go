@@ -18,7 +18,7 @@ func (c *Home) Render() app.UI {
 				),
 			&Navbar{},
 			app.Main().
-				Class("pf-c-page__main", "pf-c-page__main", "pf-l-flex", "pf-m-justify-content-center", "pf-m-align-items-center").
+				Class("pf-c-page__main", "pf-c-page__main").
 				ID("papilio-main").
 				TabIndex(-1).
 				Body(
@@ -31,6 +31,11 @@ func (c *Home) Render() app.UI {
 										Link:   "/ic/fe11s",
 										ICName: "FE 1.1s",
 										ICImg:  "/web/img/fe11s.svg",
+									},
+									&ICCard{
+										Link:   "/ic/fe21",
+										ICName: "FE 2.1",
+										ICImg:  "/web/img/fe21.svg",
 									},
 								},
 							},

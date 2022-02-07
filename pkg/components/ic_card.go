@@ -22,9 +22,10 @@ func (c *ICCard) Render() app.UI {
 						Class("pf-c-card__header pf-l-flex pf-m-justify-content-center").
 						Body(
 							app.Div().
-								Class("pf-c-card__header-main pf-u-w-50").
+								Class("pf-c-card__header-main").
 								Body(
 									app.Img().
+										Class("pf-x-u-height-10").
 										Src(c.ICImg).
 										Alt("Preview image of "+c.ICImg),
 								),
