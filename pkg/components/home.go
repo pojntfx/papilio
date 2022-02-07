@@ -18,11 +18,23 @@ func (c *Home) Render() app.UI {
 				),
 			&Navbar{},
 			app.Main().
-				Class("pf-c-page__main").
+				Class("pf-c-page__main", "pf-c-page__main", "pf-l-flex", "pf-m-justify-content-center", "pf-m-align-items-center").
 				ID("papilio-main").
 				TabIndex(-1).
 				Body(
-					app.H1().Text("Hello, world!"),
+					app.Div().
+						Class("pf-c-page__main-section", "pf-m-fill", "pf-l-flex", "pf-m-justify-content-center", "pf-m-align-items-center").
+						Body(
+							&ICGrid{
+								Children: []app.UI{
+									&ICCard{
+										Link:   "/ic/fe11s",
+										ICName: "FE 1.1s",
+										ICImg:  "/web/img/fe11s.svg",
+									},
+								},
+							},
+						),
 				),
 		)
 }
