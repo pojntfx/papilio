@@ -13,3 +13,9 @@ $fa-font-path: $pf-global--font-path + "/webfonts";
 .pf-x-u-height-10 {
   height: 10rem;
 }
+
+.pf-l-gallery--limited {
+  @media screen and (min-width: $pf-global--breakpoint--md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
