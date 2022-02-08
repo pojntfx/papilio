@@ -10,7 +10,7 @@ type ICGrid struct {
 
 func (c *ICGrid) Render() app.UI {
 	return app.Div().
-		Class("pf-l-gallery", "pf-m-gutter").
+		Class("pf-l-gallery", "pf-m-gutter", "pf-l-gallery--limited").
 		Body(
 			app.Range(c.Children).Slice(func(i int) app.UI {
 				return app.Div().

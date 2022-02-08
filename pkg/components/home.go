@@ -37,6 +37,11 @@ func (c *Home) Render() app.UI {
 										ICName: "FE 2.1",
 										ICImg:  "/web/img/fe21.svg",
 									},
+									&ICCard{
+										Link:   "/ic/sl22s",
+										ICName: "SL 2.2s",
+										ICImg:  "/web/img/sl22s.svg",
+									},
 								},
 							},
 						),
