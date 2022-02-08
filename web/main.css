@@ -40205,4 +40205,10 @@ svg.pf-c-spinner.pf-m-xl {
   height: 10rem;
 }
 
+@media screen and (min-width: 768px) {
+  .pf-l-gallery--limited {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 /*# sourceMappingURL=main.css.map */
