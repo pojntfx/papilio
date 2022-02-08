@@ -42,6 +42,9 @@ func (c *Home) Render() app.UI {
 										ICName: "SL 2.2s",
 										ICImg:  "/web/img/sl22s.svg",
 									},
+									&ProposeICCard{
+										Link: "https://github.com/pojntfx/papilio/issues/new",
+									},
 								},
 							},
 						),
