@@ -5,14 +5,16 @@ import app "github.com/maxence-charriere/go-app/v9/pkg/app"
 type ICCard struct {
 	app.Compo
 
-	Link   string
+	Open   func()
 	ICName string
 	ICImg  string
 }
 
 func (c *ICCard) Render() app.UI {
 	return app.A().
-		Href(c.Link).
+		OnClick(func(ctx app.Context, e app.Event) {
+			c.Open()
+		}).
 		Class("pf-u-color-100 pf-x-m-no-decoration").
 		Body(
 			app.Div().
