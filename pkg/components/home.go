@@ -1,9 +1,15 @@
 package components
 
-import "github.com/maxence-charriere/go-app/v9/pkg/app"
+import (
+	"log"
+
+	"github.com/maxence-charriere/go-app/v9/pkg/app"
+)
 
 type Home struct {
 	app.Compo
+
+	showFE11sModalOpen bool
 }
 
 func (c *Home) Render() app.UI {
@@ -28,17 +34,25 @@ func (c *Home) Render() app.UI {
 							&ICGrid{
 								Children: []app.UI{
 									&ICCard{
-										Link:   "/ic/fe11s",
+										Open: func() {
+											c.showFE11sModalOpen = true
+
+											c.Update()
+										},
 										ICName: "FE 1.1s",
 										ICImg:  "/web/img/fe11s.svg",
 									},
 									&ICCard{
-										Link:   "/ic/fe21",
+										Open: func() {
+											log.Println("Opening FE 2.1")
+										},
 										ICName: "FE 2.1",
 										ICImg:  "/web/img/fe21.svg",
 									},
 									&ICCard{
-										Link:   "/ic/sl22s",
+										Open: func() {
+											log.Println("Opening SL 2.2s")
+										},
 										ICName: "SL 2.2s",
 										ICImg:  "/web/img/sl22s.svg",
 									},
@@ -49,6 +63,19 @@ func (c *Home) Render() app.UI {
 							},
 						),
 				),
+			app.If(
+				c.showFE11sModalOpen,
+				&FE11sModal{
+					OnSubmit: func(vendorID, productID, deviceReleaseNumber, numberOfDownstreamPorts string) {
+						log.Println("Generating EEPROM config for", vendorID, productID, deviceReleaseNumber, numberOfDownstreamPorts)
+					},
+					OnCancel: func() {
+						c.showFE11sModalOpen = false
+
+						c.Update()
+					},
+				},
+			),
 		)
 }
 
