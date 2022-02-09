@@ -33,7 +33,7 @@ $(addprefix build-pwa/,$(pwas)): build-scss
 	tar -cvzf $(OUTPUT_DIR)/$(subst build-pwa/,,$@).tar.gz -C $(BUILD_DIR) .
 
 build-scss:
-	npx sass -I . web/main.scss web/main.css
+	sassc -I . web/main.scss web/main.css
 
 # Install
 install: $(addprefix install-cli/,$(clis)) $(addprefix install-pwa/,$(pwas))
