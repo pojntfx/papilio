@@ -5,6 +5,10 @@ import (
 	"github.com/pojntfx/keygaen/pkg/components"
 )
 
+const (
+	hexUint16Pattern = `[a-fA-F\d]{4}`
+)
+
 type FE11sModal struct {
 	app.Compo
 
@@ -56,7 +60,7 @@ func (c *FE11sModal) Render() app.UI {
 										Body(
 											app.Span().
 												Class("pf-c-form__label-text").
-												Text("Vendor ID"),
+												Text("Vendor ID (HEX)"),
 											app.Span().
 												Class("pf-c-form__label-required").
 												Aria("hidden", true).
@@ -71,7 +75,8 @@ func (c *FE11sModal) Render() app.UI {
 											Class("pf-c-form-control").
 											Required(true).
 											Type("text").
-											Placeholder("0x1a0x40").
+											Pattern(hexUint16Pattern).
+											Placeholder("046d").
 											ID("vendor-id-input").
 											OnInput(func(ctx app.Context, e app.Event) {
 												c.vendorID = ctx.JSSrc().Get("value").String()
@@ -95,7 +100,7 @@ func (c *FE11sModal) Render() app.UI {
 												Body(
 													app.Span().
 														Class("pf-c-form__label-text").
-														Text("Product ID"),
+														Text("Product ID (HEX)"),
 													app.Span().
 														Class("pf-c-form__label-required").
 														Aria("hidden", true).
@@ -108,7 +113,8 @@ func (c *FE11sModal) Render() app.UI {
 											app.Input().
 												Class("pf-c-form-control").
 												Type("text").
-												Placeholder("0x010x01").
+												Pattern(hexUint16Pattern).
+												Placeholder("082d").
 												ID("product-id-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
@@ -133,7 +139,7 @@ func (c *FE11sModal) Render() app.UI {
 												Body(
 													app.Span().
 														Class("pf-c-form__label-text").
-														Text("Device Release Number"),
+														Text("Device Release Number (HEX)"),
 													app.Span().
 														Class("pf-c-form__label-required").
 														Aria("hidden", true).
@@ -146,7 +152,8 @@ func (c *FE11sModal) Render() app.UI {
 											app.Input().
 												Class("pf-c-form-control").
 												Type("text").
-												Placeholder("0x30x83").
+												Pattern(hexUint16Pattern).
+												Placeholder("0001").
 												ID("device-release-number-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
@@ -183,8 +190,10 @@ func (c *FE11sModal) Render() app.UI {
 										Body(
 											app.Input().
 												Class("pf-c-form-control").
-												Type("text").
+												Type("number").
 												Placeholder("4").
+												Min(0).
+												Max(127).
 												ID("number-of-downstream-ports-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
