@@ -20,7 +20,7 @@ func (c *Navbar) Render() app.UI {
 						Body(
 							app.Img().
 								Class("pf-c-brand").
-								Src("/papilio/web/logo-light.png").
+								Src("/web/logo-light.png").
 								Alt("Logo"),
 						),
 				),
