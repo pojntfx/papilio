@@ -1,6 +1,6 @@
 @import "node_modules/@patternfly/patternfly/sass-utilities/all.scss";
 
-$pf-global--font-path: "/web/fonts";
+$pf-global--font-path: "fonts";
 $fa-font-path: $pf-global--font-path + "/webfonts";
 
 @import "node_modules/@patternfly/patternfly/patternfly.scss";
