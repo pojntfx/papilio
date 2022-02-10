@@ -1,6 +1,9 @@
 package components
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	"github.com/pojntfx/keygaen/pkg/components"
 )
@@ -13,16 +16,16 @@ type FE11sModal struct {
 	app.Compo
 
 	OnSubmit func(
-		vendorID string,
-		productID string,
-		deviceReleaseNumber string,
-		numberOfDownstreamPorts string,
+		idVendor uint16,
+		idProduct uint16,
+		bcdDevice uint16,
+		numberOfDownstreamPorts uint8,
 	)
 	OnCancel func()
 
-	vendorID                string
-	productID               string
-	deviceReleaseNumber     string
+	idVendor                string
+	idProduct               string
+	bcdDevice               string
 	numberOfDownstreamPorts string
 }
 
@@ -38,11 +41,39 @@ func (c *FE11sModal) Render() app.UI {
 				OnSubmit(func(ctx app.Context, e app.Event) {
 					e.PreventDefault()
 
+					vendorID, err := strconv.ParseUint(c.idVendor, 16, 16)
+					if err != nil {
+						log.Println("Could not parse vendor ID:", err)
+
+						return
+					}
+
+					productID, err := strconv.ParseUint(c.idProduct, 16, 16)
+					if err != nil {
+						log.Println("Could not parse product ID:", err)
+
+						return
+					}
+
+					bcdDevice, err := strconv.ParseUint(c.bcdDevice, 16, 16)
+					if err != nil {
+						log.Println("Could not parse device release number:", err)
+
+						return
+					}
+
+					numberOfDownstreamPorts, err := strconv.ParseUint(c.numberOfDownstreamPorts, 10, 8)
+					if err != nil {
+						log.Println("Could not parse product ID:", err)
+
+						return
+					}
+
 					c.OnSubmit(
-						c.vendorID,
-						c.productID,
-						c.deviceReleaseNumber,
-						c.numberOfDownstreamPorts,
+						uint16(vendorID),
+						uint16(productID),
+						uint16(bcdDevice),
+						uint8(numberOfDownstreamPorts),
 					)
 
 					c.cancel()
@@ -79,9 +110,9 @@ func (c *FE11sModal) Render() app.UI {
 											Placeholder("046d").
 											ID("vendor-id-input").
 											OnInput(func(ctx app.Context, e app.Event) {
-												c.vendorID = ctx.JSSrc().Get("value").String()
+												c.idVendor = ctx.JSSrc().Get("value").String()
 											}).
-											Value(c.vendorID),
+											Value(c.idVendor),
 									},
 								),
 						),
@@ -118,9 +149,9 @@ func (c *FE11sModal) Render() app.UI {
 												ID("product-id-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
-													c.productID = ctx.JSSrc().Get("value").String()
+													c.idProduct = ctx.JSSrc().Get("value").String()
 												}).
-												Value(c.productID),
+												Value(c.idProduct),
 										),
 								),
 						),
@@ -157,9 +188,9 @@ func (c *FE11sModal) Render() app.UI {
 												ID("device-release-number-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
-													c.deviceReleaseNumber = ctx.JSSrc().Get("value").String()
+													c.bcdDevice = ctx.JSSrc().Get("value").String()
 												}).
-												Value(c.deviceReleaseNumber),
+												Value(c.bcdDevice),
 										),
 								),
 						),
@@ -227,9 +258,9 @@ func (c *FE11sModal) Render() app.UI {
 }
 
 func (c *FE11sModal) cancel() {
-	c.vendorID = ""
-	c.productID = ""
-	c.deviceReleaseNumber = ""
+	c.idVendor = ""
+	c.idProduct = ""
+	c.bcdDevice = ""
 	c.numberOfDownstreamPorts = ""
 
 	c.OnCancel()

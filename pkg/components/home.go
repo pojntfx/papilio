@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
+	"github.com/pojntfx/papilio/pkg/generators/fe11s"
 )
 
 type Home struct {
@@ -66,8 +67,15 @@ func (c *Home) Render() app.UI {
 			app.If(
 				c.showFE11sModalOpen,
 				&FE11sModal{
-					OnSubmit: func(vendorID, productID, deviceReleaseNumber, numberOfDownstreamPorts string) {
-						log.Println("Generating EEPROM config for", vendorID, productID, deviceReleaseNumber, numberOfDownstreamPorts)
+					OnSubmit: func(idVendor, idProduct, bcdDevice uint16, numberOfDownstreamPorts uint8) {
+						eeprom, err := fe11s.GenerateEEPROM(idVendor, idProduct, bcdDevice, numberOfDownstreamPorts)
+						if err != nil {
+							log.Println("Could not generate EEPROM:", err)
+
+							return
+						}
+
+						c.download(eeprom, "fe11s.hex", "application/octet-stream")
 					},
 					OnCancel: func() {
 						c.showFE11sModalOpen = false
@@ -83,4 +91,18 @@ func (c *Home) OnAppUpdate(ctx app.Context) {
 	if ctx.AppUpdateAvailable() {
 		ctx.Reload()
 	}
+}
+
+func (c *Home) download(content []byte, name string, mimetype string) {
+	buf := app.Window().JSValue().Get("Uint8Array").New(len(content))
+	app.CopyBytesToJS(buf, content)
+
+	blob := app.Window().JSValue().Get("Blob").New(app.Window().JSValue().Get("Array").New(buf), map[string]interface{}{
+		"type": mimetype,
+	})
+
+	link := app.Window().Get("document").Call("createElement", "a")
+	link.Set("href", app.Window().Get("URL").Call("createObjectURL", blob))
+	link.Set("download", name)
+	link.Call("click")
 }

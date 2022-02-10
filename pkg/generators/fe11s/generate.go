@@ -21,7 +21,7 @@ func GenerateEEPROM(
 	bcdDevice uint16, // i.e. 0x0001 for release 1
 	numberOfDownstreamPorts uint8, // i.e. 4 for 4 ports
 ) ([]byte, error) {
-	buf := make([]byte, 0x1F) // Filling is `0x00`
+	buf := make([]byte, 0x1F+1) // Filling is `0x00`
 
 	buf[0x00] = 0x40 // Constant, low byte of check code
 	buf[0x01] = 0x1A // Constant, high byte of check code
