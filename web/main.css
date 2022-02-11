@@ -354,7 +354,7 @@
   --pf-global--BorderColor--300: #f0f0f0;
   --pf-global--BorderColor--dark-100: #d2d2d2;
   --pf-global--BorderColor--light-100: #b8bbbe;
-  --pf-global--BorderRadius--sm: 3px;
+  --pf-global--BorderRadius--sm: 8px;
   --pf-global--BorderRadius--lg: 30em;
   --pf-global--icon--Color--light: #6a6e73;
   --pf-global--icon--Color--dark: #151515;
@@ -32191,6 +32191,51 @@ svg.pf-c-spinner {
   text-overflow: ellipsis !important;
   white-space: nowrap !important; }
 
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-display: fallback;
+  font-weight: 400;
+  src: url("fonts/lato/lato-latin-ext-400-normal.woff2") format("woff2"), url("fonts/lato/lato-all-400-normal.woff") format("woff");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-display: fallback;
+  font-weight: 400;
+  src: url("fonts/lato/lato-latin-400-normal.woff2") format("woff2"), url("fonts/lato/lato-all-400-normal.woff") format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+:root {
+  --pf-global--FontFamily--sans-serif: "Lato", "RedHatText", "Overpass",
+    overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--heading--sans-serif: "Lato", "RedHatDisplay",
+    "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--monospace: "Liberation Mono", consolas,
+    "SFMono-Regular", menlo, monaco, "Courier New", monospace;
+  --pf-global--FontFamily--redhat-updated--sans-serif: "Lato",
+    "RedHatTextUpdated", "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--redhat-updated--heading--sans-serif: "Lato",
+    "RedHatDisplayUpdated", "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--redhat--monospace: "RedHatMono", "Liberation Mono",
+    consolas, "SFMono-Regular", menlo, monaco, "Courier New", monospace;
+  --pf-global--FontFamily--redhatVF--sans-serif: "Lato", "RedHatTextVF",
+    "RedHatText", "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--redhatVF--heading--sans-serif: "Lato",
+    "RedHatDisplayVF", "RedHatDisplay", "Overpass", overpass, helvetica, arial,
+    sans-serif;
+  --pf-global--FontFamily--redhatVF--monospace: "RedHatMonoVF", "RedHatMono",
+    "Liberation Mono", consolas, "SFMono-Regular", menlo, monaco, "Courier New",
+    monospace;
+  --pf-global--FontFamily--overpass--sans-serif: "Lato", "overpass", overpass,
+    "open sans", -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
+    "Helvetica Neue", arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --pf-global--FontFamily--overpass--monospace: "overpass-mono", overpass-mono,
+    "SFMono-Regular", menlo, monaco, consolas, "Liberation Mono", "Courier New",
+    monospace; }
+
 .pf-x-m-no-decoration {
   text-decoration: none !important; }
 
@@ -32200,3 +32245,15 @@ svg.pf-c-spinner {
 @media screen and (min-width: 768px) {
   .pf-l-gallery--limited {
     grid-template-columns: repeat(4, 1fr); } }
+
+.pf-x-u-cursor-pointer {
+  cursor: pointer; }
+
+.pf-m-border-radius, .pf-c-card.pf-m-hoverable-raised::before,
+.pf-c-card.pf-m-hoverable-raised::after,
+.pf-m-modal,
+.pf-c-card {
+  border-radius: 8px; }
+
+.pf-x-m-backdrop-blur, .pf-l-bullseye {
+  backdrop-filter: blur(0.5rem); }
