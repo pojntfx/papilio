@@ -3,8 +3,43 @@
 $pf-global--font-path: "fonts";
 $fa-font-path: $pf-global--font-path + "/webfonts";
 
+$pf-global--BorderRadius--sm: 8px;
+
 @import "node_modules/@patternfly/patternfly/patternfly.scss";
 @import "node_modules/@patternfly/patternfly/patternfly-addons.scss";
+
+@import "node_modules/@fontsource/lato/scss/mixins.scss";
+@include fontFace($weight: 400, $display: fallback, $fontDir: "fonts/lato");
+
+:root {
+  --pf-global--FontFamily--sans-serif: "Lato", "RedHatText", "Overpass",
+    overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--heading--sans-serif: "Lato", "RedHatDisplay",
+    "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--monospace: "Liberation Mono", consolas,
+    "SFMono-Regular", menlo, monaco, "Courier New", monospace;
+  --pf-global--FontFamily--redhat-updated--sans-serif: "Lato",
+    "RedHatTextUpdated", "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--redhat-updated--heading--sans-serif: "Lato",
+    "RedHatDisplayUpdated", "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--redhat--monospace: "RedHatMono", "Liberation Mono",
+    consolas, "SFMono-Regular", menlo, monaco, "Courier New", monospace;
+  --pf-global--FontFamily--redhatVF--sans-serif: "Lato", "RedHatTextVF",
+    "RedHatText", "Overpass", overpass, helvetica, arial, sans-serif;
+  --pf-global--FontFamily--redhatVF--heading--sans-serif: "Lato",
+    "RedHatDisplayVF", "RedHatDisplay", "Overpass", overpass, helvetica, arial,
+    sans-serif;
+  --pf-global--FontFamily--redhatVF--monospace: "RedHatMonoVF", "RedHatMono",
+    "Liberation Mono", consolas, "SFMono-Regular", menlo, monaco, "Courier New",
+    monospace;
+  --pf-global--FontFamily--overpass--sans-serif: "Lato", "overpass", overpass,
+    "open sans", -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
+    "Helvetica Neue", arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --pf-global--FontFamily--overpass--monospace: "overpass-mono", overpass-mono,
+    "SFMono-Regular", menlo, monaco, consolas, "Liberation Mono", "Courier New",
+    monospace;
+}
 
 .pf-x-m-no-decoration {
   text-decoration: none !important;
@@ -18,4 +53,27 @@ $fa-font-path: $pf-global--font-path + "/webfonts";
   @media screen and (min-width: $pf-global--breakpoint--md) {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+.pf-x-u-cursor-pointer {
+  cursor: pointer;
+}
+
+.pf-m-border-radius {
+  border-radius: $pf-global--BorderRadius--sm;
+}
+
+.pf-c-card.pf-m-hoverable-raised::before,
+.pf-c-card.pf-m-hoverable-raised::after,
+.pf-m-modal,
+.pf-c-card {
+  @extend .pf-m-border-radius;
+}
+
+.pf-x-m-backdrop-blur {
+  backdrop-filter: blur(0.5rem);
+}
+
+.pf-l-bullseye {
+  @extend .pf-x-m-backdrop-blur;
 }
