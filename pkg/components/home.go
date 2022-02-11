@@ -32,36 +32,45 @@ func (c *Home) Render() app.UI {
 					app.Div().
 						Class("pf-c-page__main-section", "pf-m-fill", "pf-l-flex", "pf-m-justify-content-center", "pf-m-align-items-center").
 						Body(
-							&ICGrid{
-								Children: []app.UI{
-									&ICCard{
-										Open: func() {
-											c.showFE11sModalOpen = true
+							app.Div().
+								Class("pf-l-flex pf-m-column pf-m-justify-content-center pf-m-align-items-center pf-m-space-items-xl").
+								Body(
+									app.H1().
+										Class("pf-u-font-size-3xl pf-u-text-align-center pf-u-mt-md").
+										Body(
+											app.Text("Please select your IC to continue."),
+										),
+									&ICGrid{
+										Children: []app.UI{
+											&ICCard{
+												Open: func() {
+													c.showFE11sModalOpen = true
 
-											c.Update()
+													c.Update()
+												},
+												ICName: "FE 1.1s",
+												ICImg:  "/web/img/fe11s.svg",
+											},
+											&ICCard{
+												Open: func() {
+													log.Println("Opening FE 2.1")
+												},
+												ICName: "FE 2.1",
+												ICImg:  "/web/img/fe21.svg",
+											},
+											&ICCard{
+												Open: func() {
+													log.Println("Opening SL 2.2s")
+												},
+												ICName: "SL 2.2s",
+												ICImg:  "/web/img/sl22s.svg",
+											},
+											&ProposeICCard{
+												Link: "https://github.com/pojntfx/papilio/issues/new",
+											},
 										},
-										ICName: "FE 1.1s",
-										ICImg:  "/web/img/fe11s.svg",
 									},
-									&ICCard{
-										Open: func() {
-											log.Println("Opening FE 2.1")
-										},
-										ICName: "FE 2.1",
-										ICImg:  "/web/img/fe21.svg",
-									},
-									&ICCard{
-										Open: func() {
-											log.Println("Opening SL 2.2s")
-										},
-										ICName: "SL 2.2s",
-										ICImg:  "/web/img/sl22s.svg",
-									},
-									&ProposeICCard{
-										Link: "https://github.com/pojntfx/papilio/issues/new",
-									},
-								},
-							},
+								),
 						),
 				),
 			app.If(
