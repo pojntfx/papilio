@@ -28,7 +28,7 @@ if ("serviceWorker" in navigator) {
 // -----------------------------------------------------------------------------
 // Env
 // -----------------------------------------------------------------------------
-const goappEnv = {"GOAPP_INTERNAL_URLS":"null","GOAPP_ROOT_PREFIX":"/papilio","GOAPP_STATIC_RESOURCES_URL":"/papilio","GOAPP_VERSION":"a3fdacb89c88ed88a9e8b7dffd534ec3f97b61a7"};
+const goappEnv = {"GOAPP_INTERNAL_URLS":"null","GOAPP_ROOT_PREFIX":"/papilio","GOAPP_STATIC_RESOURCES_URL":"/papilio","GOAPP_VERSION":"02adc90cc69757a32410d62eb6d2178ac318f2c4"};
 
 function goappGetenv(k) {
   return goappEnv[k];
