@@ -32261,11 +32261,10 @@ svg.pf-c-spinner {
 .pf-x-m-background-gradient, .pf-c-page__main {
   background: linear-gradient(0deg, #ffffff70, 33%, #f0f0f0); }
 
-.pf-x-m-background-transparent, .pf-c-page,
-.pf-c-page__main-section {
+.pf-x-m-background-transparent, .pf-c-page__main-section {
   background: transparent; }
 
-.pf-x-m-background-unsplash, body {
+.pf-x-m-background-unsplash, .pf-c-page {
   background-image: url(https://source.unsplash.com/random?electronics) !important;
   background-position: 50% !important;
   background-attachment: fixed !important;
