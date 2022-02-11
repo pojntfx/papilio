@@ -95,11 +95,10 @@ $pf-global--BorderRadius--sm: 8px;
   backdrop-filter: blur(5px) !important;
 }
 
-body {
+.pf-c-page {
   @extend .pf-x-m-background-unsplash;
 }
 
-.pf-c-page,
 .pf-c-page__main-section {
   @extend .pf-x-m-background-transparent;
 }
