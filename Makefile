@@ -83,3 +83,4 @@ depend:
 	rm -rf $(STATIC_DIR)/fonts
 	mkdir -p $(STATIC_DIR)
 	cp -r node_modules/@patternfly/patternfly/assets/fonts $(STATIC_DIR)
+	cp -r node_modules/@fontsource/lato/files $(STATIC_DIR)/fonts/lato
