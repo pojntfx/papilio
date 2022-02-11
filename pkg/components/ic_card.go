@@ -1,6 +1,8 @@
 package components
 
-import app "github.com/maxence-charriere/go-app/v9/pkg/app"
+import (
+	app "github.com/maxence-charriere/go-app/v9/pkg/app"
+)
 
 type ICCard struct {
 	app.Compo
@@ -11,11 +13,16 @@ type ICCard struct {
 }
 
 func (c *ICCard) Render() app.UI {
-	return app.A().
-		OnClick(func(ctx app.Context, e app.Event) {
-			c.Open()
+	return app.Div().
+		Role("button").
+		TabIndex(0).
+		OnKeyDown(func(ctx app.Context, e app.Event) {
+			if key := e.Get("key").String(); key == " " || key == "Enter" {
+				c.open(ctx, e)
+			}
 		}).
-		Class("pf-u-color-100 pf-x-m-no-decoration").
+		OnClick(c.open).
+		Class("pf-u-color-100 pf-x-m-no-decoration pf-x-u-cursor-pointer").
 		Body(
 			app.Div().
 				Class("pf-c-card pf-m-hoverable-raised").
@@ -39,4 +46,10 @@ func (c *ICCard) Render() app.UI {
 						),
 				),
 		)
+}
+
+func (c *ICCard) open(ctx app.Context, e app.Event) {
+	e.PreventDefault()
+
+	c.Open()
 }
