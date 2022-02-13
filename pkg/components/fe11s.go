@@ -1,11 +1,13 @@
 package components
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	"github.com/pojntfx/keygaen/pkg/components"
+	"github.com/pojntfx/papilio/pkg/generators/fe11s"
 )
 
 const (
@@ -255,6 +257,13 @@ func (c *FE11sModal) Render() app.UI {
 		},
 	}
 
+}
+
+func (c *FE11sModal) OnMount(ctx app.Context) {
+	c.idVendor = fmt.Sprintf("%04x", fe11s.DefaultIdVendor)
+	c.idProduct = fmt.Sprintf("%04x", fe11s.DefaultIdProduct)
+	c.bcdDevice = fmt.Sprintf("%04x", fe11s.DefaultBcdDevice)
+	c.numberOfDownstreamPorts = fmt.Sprintf("%v", fe11s.DefaultNumberOfDownstreamPorts)
 }
 
 func (c *FE11sModal) cancel() {
