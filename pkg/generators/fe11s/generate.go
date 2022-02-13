@@ -1,5 +1,13 @@
 package fe11s
 
+const (
+	// See http://www.linux-usb.org/usb.ids
+	DefaultIdVendor                = uint16(0x1a40)
+	DefaultIdProduct               = uint16(0x0101)
+	DefaultBcdDevice               = uint16(0x0001)
+	DefaultNumberOfDownstreamPorts = uint8(4)
+)
+
 // | Address     | Contents              | Note                                                                                                             |
 // | ----------- | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
 // | `0x00`      | `0x40`                | Constant, low byte of check code                                                                                 |
