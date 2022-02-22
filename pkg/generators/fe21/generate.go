@@ -1,4 +1,4 @@
-package fe21s
+package fe21
 
 import (
 	"errors"
@@ -13,9 +13,14 @@ const (
 	DefaultIdProduct               = uint16(0201)
 	DefaultBcdDevice               = uint16(0x0001)
 	DefaultNumberOfDownstreamPorts = uint8(7)
+
+	DefaultCompoundDevice      = false
+	DefaultMaximumCurrent500mA = false
 )
 
 var (
+	DefaultPortsWithRemovableDevices = [7]bool{true, true, true, true, true, true, true}
+
 	ErrSerialToLong   = errors.New("serial number is too long")
 	ErrSerialNotASCII = errors.New("serial number is not valid ASCII")
 )
