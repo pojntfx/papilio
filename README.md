@@ -12,9 +12,9 @@ CLI and web app to configure the Terminus FE and SL series of USB Hubs.
 
 Support for configuring the EEPROM contents of the following chips is planned:
 
-- FE1.1s
-- FE2.1
-- SL2.2s
+- FE 1.1s
+- FE 2.1
+- SL 2.2s
 
 🚧 This project is a work-in-progress! Instructions will be added as soon as it is usable. 🚧
 

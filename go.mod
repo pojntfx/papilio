@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/maxence-charriere/go-app/v9 v9.3.0
 	github.com/pojntfx/keygaen v0.1.0
+	golang.org/x/exp v0.0.0-20190731235908-ec7cb31e5a56
 )
 
 require (
