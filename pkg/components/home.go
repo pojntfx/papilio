@@ -100,7 +100,7 @@ func (c *Home) Render() app.UI {
 			app.If(
 				c.showFE21ModalOpen,
 				&FE21Modal{
-					OnSubmit: func(idVendor, idProduct, bcdDevice uint16, numberOfDownstreamPorts uint8, serial string, portsWithRemovableDevices [7]bool, portIndicatorSupport, compoundDevice, maximumCurrent500mA bool) {
+					OnSubmit: func(idVendor, idProduct, bcdDevice uint16, numberOfDownstreamPorts uint8, serial string, portsWithRemovableDevices [fe21.MaxNumberOfDownstreamPorts]bool, portIndicatorSupport, compoundDevice, maximumCurrent500mA bool) {
 						eeprom, err := fe21.GenerateEEPROM(idVendor, idProduct, bcdDevice, numberOfDownstreamPorts, serial, portsWithRemovableDevices, portIndicatorSupport, compoundDevice, maximumCurrent500mA)
 						if err != nil {
 							log.Println("Could not generate EEPROM:", err)

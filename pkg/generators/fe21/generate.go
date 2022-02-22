@@ -9,17 +9,17 @@ import (
 
 const (
 	// See http://www.linux-usb.org/usb.ids
-	DefaultIdVendor                = uint16(0x1a40)
-	DefaultIdProduct               = uint16(0201)
-	DefaultBcdDevice               = uint16(0x0001)
-	DefaultNumberOfDownstreamPorts = uint8(7)
+	DefaultIdVendor            = uint16(0x1a40)
+	DefaultIdProduct           = uint16(0201)
+	DefaultBcdDevice           = uint16(0x0001)
+	MaxNumberOfDownstreamPorts = uint8(7)
 
 	DefaultCompoundDevice      = false
 	DefaultMaximumCurrent500mA = false
 )
 
 var (
-	DefaultPortsWithRemovableDevices = [7]bool{false, false, false, false, false, false, false}
+	DefaultPortsWithRemovableDevices = [MaxNumberOfDownstreamPorts]bool{false, false, false, false, false, false, false}
 
 	ErrSerialToLong   = errors.New("serial number is too long")
 	ErrSerialNotASCII = errors.New("serial number is not valid ASCII")

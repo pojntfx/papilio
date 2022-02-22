@@ -66,7 +66,7 @@ func (c *FE11sModal) Render() app.UI {
 
 					numberOfDownstreamPorts, err := strconv.ParseUint(c.numberOfDownstreamPorts, 10, 8)
 					if err != nil {
-						log.Println("Could not parse product ID:", err)
+						log.Println("Could not parse number of downstream ports:", err)
 
 						return
 					}
