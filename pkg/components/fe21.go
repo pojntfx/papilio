@@ -238,9 +238,9 @@ func (c *FE21Modal) Render() app.UI {
 											app.Input().
 												Class("pf-c-form-control").
 												Type("number").
-												Placeholder("4").
-												Min(0).
-												Max(127).
+												Placeholder("7").
+												Min(1).
+												Max(7).
 												ID("number-of-downstream-ports-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
@@ -248,6 +248,90 @@ func (c *FE21Modal) Render() app.UI {
 												}).
 												Value(c.numberOfDownstreamPorts),
 										),
+								),
+						),
+					app.Div().
+						Class("pf-c-form__group").
+						Body(
+							app.Div().
+								Class("pf-c-form__group-label").
+								Body(
+									app.Label().
+										Class("pf-c-form__label").
+										For("serial-input").
+										Body(
+											app.Span().
+												Class("pf-c-form__label-text").
+												Text("Serial Number"),
+											app.Span().
+												Class("pf-c-form__label-required").
+												Aria("hidden", true).
+												Text("*"),
+										),
+								),
+							app.Div().
+								Class("pf-c-form__group-control").
+								Body(
+									app.Input().
+										Class("pf-c-form-control").
+										Required(true).
+										Type("text").
+										Max(15).
+										Placeholder("abcdefghijk").
+										ID("serial-input").
+										OnInput(func(ctx app.Context, e app.Event) {
+											c.serial = ctx.JSSrc().Get("value").String()
+										}).
+										Value(c.serial),
+								),
+						),
+					app.Div().
+						Class("pf-c-form__group").
+						Body(
+							app.Div().
+								Class("pf-c-form__group-label").
+								Body(
+									app.Label().
+										Class("pf-c-form__label").
+										For("ports-input").
+										Body(
+											app.Span().
+												Class("pf-c-form__label-text").
+												Text("Ports with Removable Devices"),
+											app.Span().
+												Class("pf-c-form__label-required").
+												Aria("hidden", true).
+												Text("*"),
+										),
+								),
+							app.Div().
+								Class("pf-c-form__group-control pf-l-flex pf-m-justify-content-center").
+								Body(
+									&ToggleGroup{
+										ID: "ports-input",
+										Toggles: func() []Toggle {
+											toggles := []Toggle{}
+
+											for i, port := range c.portsWithRemovableDevices {
+												toggles = append(toggles, Toggle{
+													ID:    i,
+													Title: fmt.Sprintf("Port %v", i+1),
+													On:    port,
+												})
+											}
+
+											return toggles
+										}(),
+										OnToggle: func(id int) {
+											if len(c.portsWithRemovableDevices) <= id {
+												log.Println("Could not find port with ID", id)
+
+												return
+											}
+
+											c.portsWithRemovableDevices[id] = !c.portsWithRemovableDevices[id]
+										},
+									},
 								),
 						),
 				),

@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	DefaultPortsWithRemovableDevices = [7]bool{true, true, true, true, true, true, true}
+	DefaultPortsWithRemovableDevices = [7]bool{false, false, false, false, false, false, false}
 
 	ErrSerialToLong   = errors.New("serial number is too long")
 	ErrSerialNotASCII = errors.New("serial number is not valid ASCII")
@@ -29,14 +29,14 @@ var (
 type portMask byte
 
 const (
-	_ portMask = 1 << iota // Bit 0 is reserved and should be 0
-	port1Flag
-	port2Flag
-	port3Flag
-	port4Flag
-	port5Flag
+	port7Flag = 1 << iota // Bit 0 is reserved and should be 0
 	port6Flag
-	port7Flag
+	port5Flag
+	port4Flag
+	port3Flag
+	port2Flag
+	port1Flag
+	_
 )
 
 func setPortRemovable(b, flag portMask) portMask { return b | flag }
@@ -44,9 +44,9 @@ func setPortRemovable(b, flag portMask) portMask { return b | flag }
 type attributeMask byte
 
 const (
-	portIndicatorSupportFlag attributeMask = 1 << iota
+	maximumCurrent500mAFlag attributeMask = 1 << iota
 	compoundDeviceFlag
-	maximumCurrent500mAFlag
+	portIndicatorSupportFlag
 )
 
 func enableAttribute(b, flag attributeMask) attributeMask { return b | flag }
@@ -90,6 +90,7 @@ func GenerateEEPROM(
 	idProduct uint16, // i.e. 0x082d for HD Pro Webcam C920
 	bcdDevice uint16, // i.e. 0x0001 for release 1
 	numberOfDownstreamPorts uint8, // i.e. 4 for 4 ports
+
 	serial string, // ASCII serial number, max. 15 chars (i.e. `sadfasdfasdi3ds`)
 	portsWithRemovableDevices [7]bool, // Which ports have removable devices (true = removable, false = non-removable)
 	portIndicatorSupport bool, // Whether port indicators are supported on its downstream facing ports and `PORT_INDICATOR` request controls the indicators
