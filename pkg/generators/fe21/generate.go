@@ -20,6 +20,22 @@ var (
 	ErrSerialNotASCII = errors.New("serial number is not valid ASCII")
 )
 
+// See https://yourbasic.org/golang/bitmask-flag-set-clear/
+type portMask byte
+
+const (
+	_ portMask = 1 << iota // Bit 0 is reserved and should be 0
+	port1
+	port2
+	port3
+	port4
+	port5
+	port6
+	port7
+)
+
+func setPortRemovable(b, flag portMask) portMask { return b | flag }
+
 // | Address     | Contents                | Note                                                                                                              |
 // | ----------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
 // | `0x00`      | `0x40`                  | Constant, low byte of check code                                                                                  |
@@ -60,6 +76,7 @@ func GenerateEEPROM(
 	bcdDevice uint16, // i.e. 0x0001 for release 1
 	numberOfDownstreamPorts uint8, // i.e. 4 for 4 ports
 	serial string, // ASCII serial number, max. 15 chars (i.e. `sadfasdfasdi3ds`)
+	portsWithRemovableDevices [7]bool, // Which ports have removable devices (true = removable, false = non-removable)
 ) ([]byte, error) {
 	buf := make([]byte, 0x1F+1) // Filling is `0x00`
 
@@ -88,7 +105,31 @@ func GenerateEEPROM(
 
 	buf[0x18] = byte(len(serial)) // Length of effective device serial number stored in `0x08-0x17`.
 
-	// TODO: Add Device Removable Device and Device Attributes
+	var removableDevices portMask
+	for i, port := range portsWithRemovableDevices {
+		if port {
+			// hic sunt dracones
+			switch i {
+			case 0:
+				removableDevices = setPortRemovable(removableDevices, port1)
+			case 1:
+				removableDevices = setPortRemovable(removableDevices, port2)
+			case 2:
+				removableDevices = setPortRemovable(removableDevices, port3)
+			case 3:
+				removableDevices = setPortRemovable(removableDevices, port4)
+			case 4:
+				removableDevices = setPortRemovable(removableDevices, port5)
+			case 5:
+				removableDevices = setPortRemovable(removableDevices, port6)
+			case 6:
+				removableDevices = setPortRemovable(removableDevices, port7)
+			}
+		}
+	}
+	buf[0x1C] = byte(removableDevices) // Removable field of hub descriptor - indicates if a port has a removable device attached
+
+	// TODO: Add Device Attributes
 
 	buf[0x1A] = numberOfDownstreamPorts // Number of downstream ports, `bNbrPorts` field of hub descriptor.
 
