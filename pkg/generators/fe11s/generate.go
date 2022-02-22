@@ -25,7 +25,7 @@ const (
 // | `0x08-0x19` | Filling All           | `0x00`                                                                                                           |
 // | `0x1A`      | Port Number           | Number of downstream ports, `bNbrPorts` field of hub descriptor.                                                 |
 // | `0x1B-0x1E` | Filling All           | `0x00`                                                                                                           |
-// | `0x1F`      | Check Sum             | The 8-bit sum of all value from `0x00` to `0x1E`.                                                                |
+// | `0x1F`      | Check Sum             | The 8-bit sum of all values from `0x00` to `0x1E`.                                                               |
 
 func GenerateEEPROM(
 	idVendor uint16, // i.e. 0x046d for Logitech
