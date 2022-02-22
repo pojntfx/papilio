@@ -5,12 +5,14 @@ import (
 
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	"github.com/pojntfx/papilio/pkg/generators/fe11s"
+	"github.com/pojntfx/papilio/pkg/generators/fe21"
 )
 
 type Home struct {
 	app.Compo
 
 	showFE11sModalOpen bool
+	showFE21ModalOpen  bool
 }
 
 func (c *Home) Render() app.UI {
@@ -53,7 +55,9 @@ func (c *Home) Render() app.UI {
 											},
 											&ICCard{
 												Open: func() {
-													log.Println("Opening FE 2.1")
+													c.showFE21ModalOpen = true
+
+													c.Update()
 												},
 												ICName: "FE 2.1",
 												ICImg:  "/web/img/fe21.svg",
@@ -88,6 +92,26 @@ func (c *Home) Render() app.UI {
 					},
 					OnCancel: func() {
 						c.showFE11sModalOpen = false
+
+						c.Update()
+					},
+				},
+			),
+			app.If(
+				c.showFE21ModalOpen,
+				&FE21Modal{
+					OnSubmit: func(idVendor, idProduct, bcdDevice uint16, numberOfDownstreamPorts uint8, serial string, portsWithRemovableDevices [7]bool, portIndicatorSupport, compoundDevice, maximumCurrent500mA bool) {
+						eeprom, err := fe21.GenerateEEPROM(idVendor, idProduct, bcdDevice, numberOfDownstreamPorts, serial, portsWithRemovableDevices, portIndicatorSupport, compoundDevice, maximumCurrent500mA)
+						if err != nil {
+							log.Println("Could not generate EEPROM:", err)
+
+							return
+						}
+
+						c.download(eeprom, "fe21.hex", "application/octet-stream")
+					},
+					OnCancel: func() {
+						c.showFE21ModalOpen = false
 
 						c.Update()
 					},
