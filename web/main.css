@@ -32256,7 +32256,8 @@ svg.pf-c-spinner {
   border-radius: 8px; }
 
 .pf-x-m-backdrop-blur, .pf-c-backdrop {
-  backdrop-filter: blur(0.5rem); }
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem); }
 
 .pf-x-m-background-gradient, .pf-c-page__main {
   background: linear-gradient(0deg, #ffffff70, 33%, #f0f0f0); }
@@ -32270,4 +32271,5 @@ svg.pf-c-spinner {
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
-  backdrop-filter: blur(5px) !important; }
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important; }
