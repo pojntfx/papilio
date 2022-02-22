@@ -25,16 +25,26 @@ type portMask byte
 
 const (
 	_ portMask = 1 << iota // Bit 0 is reserved and should be 0
-	port1
-	port2
-	port3
-	port4
-	port5
-	port6
-	port7
+	port1Flag
+	port2Flag
+	port3Flag
+	port4Flag
+	port5Flag
+	port6Flag
+	port7Flag
 )
 
 func setPortRemovable(b, flag portMask) portMask { return b | flag }
+
+type attributeMask byte
+
+const (
+	portIndicatorSupportFlag attributeMask = 1 << iota
+	compoundDeviceFlag
+	maximumCurrent500mAFlag
+)
+
+func enableAttribute(b, flag attributeMask) attributeMask { return b | flag }
 
 // | Address     | Contents                | Note                                                                                                              |
 // | ----------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -77,6 +87,9 @@ func GenerateEEPROM(
 	numberOfDownstreamPorts uint8, // i.e. 4 for 4 ports
 	serial string, // ASCII serial number, max. 15 chars (i.e. `sadfasdfasdi3ds`)
 	portsWithRemovableDevices [7]bool, // Which ports have removable devices (true = removable, false = non-removable)
+	portIndicatorSupport bool, // Whether port indicators are supported on its downstream facing ports and `PORT_INDICATOR` request controls the indicators
+	compoundDevice bool, // Wether the hub identifies a compound device, bit 2 of `wHubCharacteristics` field of hub descriptor
+	maximumCurrent500mA bool, // Wether the maximum current requirements of the hub controller electronics, `bHubContrCurrent` field of hub descriptor, are 500mA (false = 200mA)
 ) ([]byte, error) {
 	buf := make([]byte, 0x1F+1) // Filling is `0x00`
 
@@ -111,25 +124,35 @@ func GenerateEEPROM(
 			// hic sunt dracones
 			switch i {
 			case 0:
-				removableDevices = setPortRemovable(removableDevices, port1)
+				removableDevices = setPortRemovable(removableDevices, port1Flag)
 			case 1:
-				removableDevices = setPortRemovable(removableDevices, port2)
+				removableDevices = setPortRemovable(removableDevices, port2Flag)
 			case 2:
-				removableDevices = setPortRemovable(removableDevices, port3)
+				removableDevices = setPortRemovable(removableDevices, port3Flag)
 			case 3:
-				removableDevices = setPortRemovable(removableDevices, port4)
+				removableDevices = setPortRemovable(removableDevices, port4Flag)
 			case 4:
-				removableDevices = setPortRemovable(removableDevices, port5)
+				removableDevices = setPortRemovable(removableDevices, port5Flag)
 			case 5:
-				removableDevices = setPortRemovable(removableDevices, port6)
+				removableDevices = setPortRemovable(removableDevices, port6Flag)
 			case 6:
-				removableDevices = setPortRemovable(removableDevices, port7)
+				removableDevices = setPortRemovable(removableDevices, port7Flag)
 			}
 		}
 	}
 	buf[0x1C] = byte(removableDevices) // Removable field of hub descriptor - indicates if a port has a removable device attached
 
-	// TODO: Add Device Attributes
+	var deviceAttributes attributeMask
+	if portIndicatorSupport {
+		deviceAttributes = enableAttribute(deviceAttributes, portIndicatorSupportFlag)
+	}
+	if compoundDevice {
+		deviceAttributes = enableAttribute(deviceAttributes, compoundDeviceFlag)
+	}
+	if maximumCurrent500mA {
+		deviceAttributes = enableAttribute(deviceAttributes, maximumCurrent500mAFlag)
+	}
+	buf[0x1E] = byte(deviceAttributes) // Device attributes
 
 	buf[0x1A] = numberOfDownstreamPorts // Number of downstream ports, `bNbrPorts` field of hub descriptor.
 
