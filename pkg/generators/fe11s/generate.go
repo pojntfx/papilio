@@ -1,5 +1,9 @@
 package fe11s
 
+import (
+	"github.com/pojntfx/papilio/pkg/utils"
+)
+
 const (
 	// See http://www.linux-usb.org/usb.ids
 	DefaultIdVendor                = uint16(0x1a40)
@@ -12,14 +16,14 @@ const (
 // | ----------- | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
 // | `0x00`      | `0x40`                | Constant, low byte of check code                                                                                 |
 // | `0x01`      | `0x1A`                | Constant, high byte of check code                                                                                |
-// | `0x02`      | Vendor ID (Low)       | Low byte of Vendor ID, `idVendor` field of Standard Device Descriptor                                            |
-// | `0x03`      | Vendor ID (High)      | High byte of Vendor ID                                                                                           |
-// | `0x04`      | Product ID (Low)      | Low byte of Product ID, `idProduct` field of Standard Device Descriptor                                          |
-// | `0x05`      | Product ID (High)     | High Byte of Product ID                                                                                          |
-// | `0x06`      | Device Release (Low)  | Low byte of Device Release Number, must be Binary Coded Decimal, `bcdDevice` field of Standard Device Descriptor |
-// | `0x07`      | Device Release (High) | High byte of Device Release Number, must be Binary Coded Decimal                                                 |
+// | `0x02`      | Vendor ID (Low)       | Low byte of vendor ID, `idVendor` field of standard device descriptor                                            |
+// | `0x03`      | Vendor ID (High)      | High byte of vendor ID                                                                                           |
+// | `0x04`      | Product ID (Low)      | Low byte of product ID, `idProduct` field of standard device descriptor                                          |
+// | `0x05`      | Product ID (High)     | High byte of product ID                                                                                          |
+// | `0x06`      | Device Release (Low)  | Low byte of device release number, must be binary coded decimal, `bcdDevice` field of standard device descriptor |
+// | `0x07`      | Device Release (High) | High byte of device release number, must be binary coded decimal                                                 |
 // | `0x08-0x19` | Filling All           | `0x00`                                                                                                           |
-// | `0x1A`      | Port Number           | Number of Downstream Ports, `bNbrPorts` field of Hub Descriptor.                                                 |
+// | `0x1A`      | Port Number           | Number of downstream ports, `bNbrPorts` field of hub descriptor.                                                 |
 // | `0x1B-0x1E` | Filling All           | `0x00`                                                                                                           |
 // | `0x1F`      | Check Sum             | The 8-bit sum of all value from `0x00` to `0x1E`.                                                                |
 
@@ -34,26 +38,15 @@ func GenerateEEPROM(
 	buf[0x00] = 0x40 // Constant, low byte of check code
 	buf[0x01] = 0x1A // Constant, high byte of check code
 
-	buf[0x02], buf[0x03] = getLowAndHighByte(idVendor) // Low and high byte of Vendor ID, `idVendor` field of Standard Device Descriptor
+	buf[0x02], buf[0x03] = utils.GetLowAndHighByte(idVendor) // Low and high byte of vendor ID, `idVendor` field of standard device descriptor
 
-	buf[0x04], buf[0x05] = getLowAndHighByte(idProduct) // Low and high byte of Product ID, `idProduct` field of Standard Device Descriptor
+	buf[0x04], buf[0x05] = utils.GetLowAndHighByte(idProduct) // Low and high byte of product ID, `idProduct` field of standard device descriptor
 
-	buf[0x06], buf[0x07] = getLowAndHighByte(getBCD(bcdDevice)) // Low and high byte of Device Release Number, must be Binary Coded Decimal, `bcdDevice` field of Standard Device Descriptor
+	buf[0x06], buf[0x07] = utils.GetLowAndHighByte(utils.GetBCD(bcdDevice)) // Low and high byte of device release number, must be binary coded decimal, `bcdDevice` field of standard device descriptor
 
-	buf[0x1F] = numberOfDownstreamPorts // The 8-bit sum of all value from `0x00` to `0x1E`.
-	for _, el := range buf[:0x1E] {
-		buf[0x1A] += el
-	}
+	buf[0x1A] = numberOfDownstreamPorts // Number of downstream ports, `bNbrPorts` field of hub descriptor.
+
+	buf[0x1F] = utils.GetChecksum(buf[:0x1E]) // The 8-bit sum of all values from `0x00` to `0x1E`.
 
 	return buf, nil
-}
-
-func getLowAndHighByte(word uint16) (byte, byte) {
-	// See https://www.mikrocontroller.net/topic/231566
-	return uint8(word & 0xff), uint8(word >> 8)
-}
-
-func getBCD(word uint16) uint16 {
-	// See https://github.com/masayukioguni/bcd/blob/master/bcd.go#L4
-	return (((word / 10) % 10) << 4) | (word % 10)
 }
