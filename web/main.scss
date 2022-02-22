@@ -72,6 +72,7 @@ $pf-global--BorderRadius--sm: 8px;
 
 .pf-x-m-backdrop-blur {
   backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
 }
 
 .pf-c-backdrop {
@@ -93,6 +94,7 @@ $pf-global--BorderRadius--sm: 8px;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
 }
 
 .pf-c-page {
