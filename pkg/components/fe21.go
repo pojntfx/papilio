@@ -340,6 +340,105 @@ func (c *FE21Modal) Render() app.UI {
 									},
 								),
 						),
+					app.Div().
+						Class("pf-c-form__group").
+						Body(
+							app.Div().
+								Class("pf-c-form__group-control").
+								Body(
+									app.Div().
+										Class("pf-c-check").
+										Body(
+											&components.Controlled{
+												Component: app.Input().
+													Class("pf-c-check__input").
+													Type("checkbox").
+													ID("port-indicator-support").
+													OnInput(func(ctx app.Context, e app.Event) {
+														c.portIndicatorSupport = !c.portIndicatorSupport
+													}),
+												Properties: map[string]interface{}{
+													"checked": !c.portIndicatorSupport,
+												},
+											},
+											app.Label().
+												Class("pf-c-check__label").
+												For("port-indicator-support").
+												Body(
+													app.Text("Port Indicator Support"),
+												),
+											app.Span().
+												Class("pf-c-check__description").
+												Text("Whether port indicators are supported on the downstream facing ports and PORT_INDICATOR requests control the indicators."),
+										),
+								),
+						),
+					app.Div().
+						Class("pf-c-form__group").
+						Body(
+							app.Div().
+								Class("pf-c-form__group-control").
+								Body(
+									app.Div().
+										Class("pf-c-check").
+										Body(
+											&components.Controlled{
+												Component: app.Input().
+													Class("pf-c-check__input").
+													Type("checkbox").
+													ID("compound-device").
+													OnInput(func(ctx app.Context, e app.Event) {
+														c.compoundDevice = !c.compoundDevice
+													}),
+												Properties: map[string]interface{}{
+													"checked": !c.compoundDevice,
+												},
+											},
+											app.Label().
+												Class("pf-c-check__label").
+												For("compound-device").
+												Body(
+													app.Text("Compound Device"),
+												),
+											app.Span().
+												Class("pf-c-check__description").
+												Text("Whether the hub identifies a compound device."),
+										),
+								),
+						),
+					app.Div().
+						Class("pf-c-form__group").
+						Body(
+							app.Div().
+								Class("pf-c-form__group-control").
+								Body(
+									app.Div().
+										Class("pf-c-check").
+										Body(
+											&components.Controlled{
+												Component: app.Input().
+													Class("pf-c-check__input").
+													Type("checkbox").
+													ID("maximum-current").
+													OnInput(func(ctx app.Context, e app.Event) {
+														c.maximumCurrent500mA = !c.maximumCurrent500mA
+													}),
+												Properties: map[string]interface{}{
+													"checked": !c.maximumCurrent500mA,
+												},
+											},
+											app.Label().
+												Class("pf-c-check__label").
+												For("maximum-current").
+												Body(
+													app.Text("Allow 500mA"),
+												),
+											app.Span().
+												Class("pf-c-check__description").
+												Text("Whether the maximum current requirements of the hub controller electronics should be allowed to reach 500mA."),
+										),
+								),
+						),
 				),
 		},
 		Footer: []app.UI{
