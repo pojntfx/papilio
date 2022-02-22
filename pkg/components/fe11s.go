@@ -225,8 +225,8 @@ func (c *FE11sModal) Render() app.UI {
 												Class("pf-c-form-control").
 												Type("number").
 												Placeholder("4").
-												Min(0).
-												Max(127).
+												Min(1).
+												Max(4).
 												ID("number-of-downstream-ports-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
