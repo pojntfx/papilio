@@ -20,7 +20,7 @@ type FE21Modal struct {
 		numberOfDownstreamPorts uint8,
 
 		serial string,
-		portsWithRemovableDevices [7]bool,
+		portsWithRemovableDevices [fe21.MaxNumberOfDownstreamPorts]bool,
 		portIndicatorSupport bool,
 		compoundDevice bool,
 		maximumCurrent500mA bool,
@@ -30,10 +30,10 @@ type FE21Modal struct {
 	idVendor                string
 	idProduct               string
 	bcdDevice               string
-	numberOfDownstreamPorts string
+	numberOfDownstreamPorts uint64
 
 	serial                    string
-	portsWithRemovableDevices [7]bool
+	portsWithRemovableDevices [fe21.MaxNumberOfDownstreamPorts]bool
 	portIndicatorSupport      bool
 	compoundDevice            bool
 	maximumCurrent500mA       bool
@@ -72,18 +72,11 @@ func (c *FE21Modal) Render() app.UI {
 						return
 					}
 
-					numberOfDownstreamPorts, err := strconv.ParseUint(c.numberOfDownstreamPorts, 10, 8)
-					if err != nil {
-						log.Println("Could not parse product ID:", err)
-
-						return
-					}
-
 					c.OnSubmit(
 						uint16(vendorID),
 						uint16(productID),
 						uint16(bcdDevice),
-						uint8(numberOfDownstreamPorts),
+						uint8(c.numberOfDownstreamPorts),
 
 						c.serial,
 						c.portsWithRemovableDevices,
@@ -238,13 +231,26 @@ func (c *FE21Modal) Render() app.UI {
 											app.Input().
 												Class("pf-c-form-control").
 												Type("number").
-												Placeholder("7").
+												Placeholder(strconv.Itoa(int(fe21.MaxNumberOfDownstreamPorts))).
 												Min(1).
-												Max(7).
+												Max(fe21.MaxNumberOfDownstreamPorts).
 												ID("number-of-downstream-ports-input").
 												Required(true).
 												OnInput(func(ctx app.Context, e app.Event) {
-													c.numberOfDownstreamPorts = ctx.JSSrc().Get("value").String()
+													numberOfDownstreamPorts, err := strconv.ParseUint(ctx.JSSrc().Get("value").String(), 10, 8)
+													if err != nil {
+														log.Println("Could not parse number of downstream ports:", err)
+
+														return
+													}
+
+													if numberOfDownstreamPorts > uint64(fe21.MaxNumberOfDownstreamPorts) {
+														log.Println("Maximum amount of downstream ports exceeded, ignoring")
+
+														return
+													}
+
+													c.numberOfDownstreamPorts = numberOfDownstreamPorts
 												}).
 												Value(c.numberOfDownstreamPorts),
 										),
@@ -312,7 +318,7 @@ func (c *FE21Modal) Render() app.UI {
 										Toggles: func() []Toggle {
 											toggles := []Toggle{}
 
-											for i, port := range c.portsWithRemovableDevices {
+											for i, port := range c.portsWithRemovableDevices[:c.numberOfDownstreamPorts] {
 												toggles = append(toggles, Toggle{
 													ID:    i,
 													Title: fmt.Sprintf("Port %v", i+1),
@@ -361,7 +367,7 @@ func (c *FE21Modal) OnMount(ctx app.Context) {
 	c.idVendor = fmt.Sprintf("%04x", fe21.DefaultIdVendor)
 	c.idProduct = fmt.Sprintf("%04x", fe21.DefaultIdProduct)
 	c.bcdDevice = fmt.Sprintf("%04x", fe21.DefaultBcdDevice)
-	c.numberOfDownstreamPorts = fmt.Sprintf("%v", fe21.DefaultNumberOfDownstreamPorts)
+	c.numberOfDownstreamPorts = uint64(fe21.MaxNumberOfDownstreamPorts)
 
 	c.serial = ""
 	c.portsWithRemovableDevices = fe21.DefaultPortsWithRemovableDevices
@@ -373,10 +379,10 @@ func (c *FE21Modal) cancel() {
 	c.idVendor = ""
 	c.idProduct = ""
 	c.bcdDevice = ""
-	c.numberOfDownstreamPorts = ""
+	c.numberOfDownstreamPorts = uint64(fe21.MaxNumberOfDownstreamPorts)
 
 	c.serial = ""
-	c.portsWithRemovableDevices = [7]bool{false, false, false, false, false, false, false}
+	c.portsWithRemovableDevices = [fe21.MaxNumberOfDownstreamPorts]bool{false, false, false, false, false, false, false}
 	c.compoundDevice = false
 	c.maximumCurrent500mA = false
 
