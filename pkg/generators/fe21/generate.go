@@ -94,8 +94,8 @@ func GenerateEEPROM(
 	serial string, // ASCII serial number, max. 15 chars (i.e. `sadfasdfasdi3ds`)
 	portsWithRemovableDevices [7]bool, // Which ports have removable devices (true = removable, false = non-removable)
 	portIndicatorSupport bool, // Whether port indicators are supported on its downstream facing ports and `PORT_INDICATOR` request controls the indicators
-	compoundDevice bool, // Wether the hub identifies a compound device, bit 2 of `wHubCharacteristics` field of hub descriptor
-	maximumCurrent500mA bool, // Wether the maximum current requirements of the hub controller electronics, `bHubContrCurrent` field of hub descriptor, are 500mA (false = 200mA)
+	compoundDevice bool, // Whether the hub identifies a compound device, bit 2 of `wHubCharacteristics` field of hub descriptor
+	maximumCurrent500mA bool, // Whether the maximum current requirements of the hub controller electronics, `bHubContrCurrent` field of hub descriptor, are 500mA (false = 200mA)
 ) ([]byte, error) {
 	buf := make([]byte, 0x1F+1) // Filling is `0x00`
 
